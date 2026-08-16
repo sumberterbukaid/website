@@ -161,8 +161,9 @@ Deploy saat ini berjalan di PC pribadi untuk pengujian. Produksi akhirnya pindah
 
 ### Pemicu deploy di server
 
-- **Fase awal: manual** — SSH + `docker compose up -d --build` (±15 detik per deploy).
-- **Menyusul, saat repo publik & /forks aktif:** webhook GitHub (via subdomain tunnel) atau self-hosted runner. Catatan keamanan yang mengikat: **PR dari fork hanya boleh di-build di runner cloud GitHub** — self-hosted runner di server hanya untuk event push/merge yang sudah terpercaya.
+- **Self-hosted GitHub Actions runner [baku]** (label `production`, user khusus + grup docker, service via `svc.sh`): push ke `main` → job `deploy` di `.github/workflows/deploy.yml` checkout commit terbaru lalu `docker compose up -d --build` — situs ter-update ±30 detik setelah push, tanpa port terbuka (runner menjaga koneksi keluar ke GitHub). Job *build-check* di cloud berjalan lebih dulu sebagai pagar.
+- Aturan keamanan yang mengikat: **PR dari fork hanya di-build di runner cloud** (`ci.yml`, `ubuntu-latest`); self-hosted runner hanya menerima event `push` ke `main` milik repo asli (guard `github.repository` di `deploy.yml`).
+- Jalur manual (SSH + `docker compose up -d --build`) tetap tersedia sebagai fallback.
 
 ### Keamanan & operasional server
 

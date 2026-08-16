@@ -89,16 +89,37 @@ tombol **"Edit di GitHub"** di tiap artikel, tanpa setup apa pun. PR direview
 
 ## Deploy
 
-**Self-host (aktif sekarang)**: situs berjalan sebagai kontainer Docker di
-belakang Traefik + Cloudflare Tunnel (infrastruktur di `../core/`, network
-`project_default`):
+**Produksi (otomatis):** push ke `main` → GitHub Actions → situs live ±30 detik.
+
+1. Job *build-check* jalan di cloud GitHub (melindungi server dari push yang merusak).
+2. Job *deploy* jalan di **self-hosted runner** di home server (label `production`):
+   checkout commit terbaru → `docker compose up -d --build` → kontainer berganti.
+
+Situs berjalan sebagai kontainer di belakang Traefik + Cloudflare Tunnel
+(infrastruktur di `core/`, network `project_default`) — ingress tunnel sudah
+mencakup `sumberterbuka.id` dan `*.sumberterbuka.id`.
+
+### Setup runner (sekali di home server)
 
 ```bash
-docker compose up -d --build   # rebuild & redeploy situs
+# Debian; buat user khusus lalu ikuti panduan dari
+# GitHub → Settings → Actions → Runners → New self-hosted runner (Linux x64)
+sudo useradd -m runner && sudo usermod -aG docker runner
+# download + config.sh (daftarkan dengan label: production) + run.sh untuk tes
+sudo ./svc.sh install && sudo ./svc.sh start   # auto-start saat reboot
 ```
 
-Ingress tunnel sudah mencakup `sumberterbuka.id` dan `*.sumberterbuka.id`;
-Traefik merutekan host tersebut ke kontainer ini via label.
+**Keamanan (repo publik):** PR dari fork hanya di-build di runner cloud
+(`ci.yml`, `ubuntu-latest`). Self-hosted runner hanya menerima event `push` ke
+`main` milik repo asli — dijaga oleh `if: github.repository == '…'` di
+`deploy.yml`.
+
+**Catatan deploy pertama:** kalau ada kontainer lama hasil salin manual,
+hentikan dulu (`docker compose down` di folder lama) supaya tidak konflik nama
+kontainer dengan hasil runner.
+
+**Development lokal:** `npm run dev`, atau jalankan stack penuh dengan
+`docker compose up -d --build`.
 
 **Alternatif tanpa server** (Cloudflare Pages/Vercel): output build tetap
 `dist/` statis murni — connect repo, preset Astro, build `npm run build`,

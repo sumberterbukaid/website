@@ -1,0 +1,40 @@
+name: Deploy
+
+# Push ke main = deploy produksi:
+# 1) build-check di cloud (lindungi server dari push yang merusak)
+# 2) deploy di runner self-hosted di home server (label: production)
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
+
+jobs:
+  build-check:
+    name: Verifikasi build (cloud)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+
+  deploy:
+    name: Deploy ke home server
+    needs: build-check
+    # Hanya repo asli — fork tidak punya runner 'production', tanpa guard
+    # job ini akan menggantung di antrean fork.
+    if: github.repository == 'sumberterbukaid/website'
+    runs-on: [self-hosted, production]
+    steps:
+      - name: Checkout commit terbaru
+        uses: actions/checkout@v4
+      - name: Rebuild & ganti kontainer
+        run: docker compose up -d --build
+      - name: Status kontainer
+        run: docker ps --filter name=sumberterbuka-website --format '{{.Names}}: {{.Status}}'

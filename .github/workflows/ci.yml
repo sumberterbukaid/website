@@ -1,13 +1,13 @@
 name: CI
 
+# PR dari siapa pun (termasuk fork) hanya di-build di runner cloud GitHub.
+# Keamanan repo publik: PR fork TIDAK PERNAH menyentuh runner self-hosted.
 on:
   pull_request:
-  push:
-    branches: [main]
 
 jobs:
   build:
-    name: Build & verifikasi
+    name: Verifikasi build (cloud)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
