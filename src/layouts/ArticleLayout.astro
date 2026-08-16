@@ -1,0 +1,58 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import ArticleAside from '../components/ArticleAside.astro';
+import { sectionMeta, readingTimeMinutes, type SectionId } from '../lib/content';
+import { SITE, editUrl } from '../lib/site';
+
+interface Props {
+  entry: CollectionEntry<'kabarmutu' | 'lab' | 'pustaka'>;
+  section: SectionId;
+}
+
+const { entry, section } = Astro.props;
+const { Content, headings } = await render(entry);
+const meta = sectionMeta(section);
+---
+
+<BaseLayout
+  title={`${entry.data.title} — ${SITE.name}`}
+  description={entry.data.description}
+  image={entry.data.heroImage}
+  type="article"
+>
+  <article class="container article-layout">
+    <aside class="article-side" aria-label="Navigasi artikel">
+      <TableOfContents headings={headings} />
+    </aside>
+
+    <div class="article-main">
+      <header class="article-head">
+        <p class="badge"><a href={`/${section}/`}>{meta.title}</a></p>
+        <h1>{entry.data.title}</h1>
+        <p class="standfirst">{entry.data.description}</p>
+        <p class="article-meta">
+          {readingTimeMinutes(entry.body)} menit baca · oleh {entry.data.author} · <a href={editUrl(section, entry.id)} rel="noopener">koreksi di GitHub ↗</a>
+          {'source' in entry.data && entry.data.source && (
+            <> · sumber: <a href={entry.data.source} rel="noopener">{entry.data.sourceName ?? 'tautan asli'} ↗</a></>
+          )}
+        </p>
+        {entry.data.heroImage && <img class="hero-img" src={entry.data.heroImage} alt="" width="1200" height="630" loading="eager" />}
+      </header>
+      <!-- Daftar isi versi mobile: accordion di atas artikel (desktop pakai sidebar) -->
+      <details class="toc-fold">
+        <summary>Daftar isi</summary>
+        <TableOfContents headings={headings} hideTitle />
+      </details>
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+
+    <aside class="article-panel" aria-label="Informasi artikel">
+      <ArticleAside entry={entry} section={section} />
+    </aside>
+  </article>
+</BaseLayout>

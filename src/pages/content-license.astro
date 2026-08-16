@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+---
+
+<BaseLayout
+  title="Lisensi Konten — Sumber Terbuka"
+  description="Artikel Sumber Terbuka dilisensikan CC BY-SA 4.0 — bebas dibagikan dan diremix dengan atribusi. Kode situs berlisensi MIT."
+>
+  <section class="container page-head">
+    <h1>Lisensi</h1>
+    <p class="lead">Apa yang boleh kamu lakukan dengan materi di situs ini — dijelaskan tanpa bahasa hukum berputar-putar.</p>
+  </section>
+
+  <div class="container page-body">
+    <h2>Artikel &amp; konten editorial — CC BY-SA 4.0</h2>
+    <p>
+      Semua artikel di <code>src/content/</code> dilisensikan di bawah{' '}
+      <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.id" rel="noopener">
+        Creative Commons Atribusi-BerbagiSerupa 4.0
+      </a>.
+    </p>
+    <p>Artinya kamu <strong>bebas</strong>:</p>
+    <ul>
+      <li><strong>Berbagi</strong> — menyalin dan menyebarluaskan dalam media/format apa pun</li>
+      <li><strong>Adaptasi</strong> — me-remix, mengubah, dan membangun di atasnya</li>
+    </ul>
+    <p>Dengan dua syarat:</p>
+    <ul>
+      <li><strong>Atribusi</strong> — sebutkan "Sumber Terbuka" + tautan ke sumberterbuka.id</li>
+      <li><strong>BerbagiSerupa</strong> — turunannya pakai lisensi yang sama</li>
+    </ul>
+
+    <h2>Kode situs — MIT</h2>
+    <p>
+      Kode sumber situs ini (di luar <code>src/content/</code>) berlisensi{' '}
+      <a href={SITE.repo + '/blob/main/LICENSE'} rel="noopener">MIT</a> — bebas
+      dipakai untuk apa pun, termasuk membangun portal serupa. Kami justru
+      senang kalau ada yang fork.
+    </p>
+
+    <h2>Item pustaka</h2>
+    <p>
+      Dataset dan tools di <a href="/pustaka/">/pustaka</a> mencantumkan lisensi
+      masing-masing (CC0, ODbL, MIT, dll.) — lisensi item mengikuti yang
+      dicantumkan pada entrinya, bukan CC BY-SA.
+    </p>
+  </div>
+</BaseLayout>

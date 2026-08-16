@@ -1,0 +1,35 @@
+---
+import katex from 'katex';
+import type { CollectionEntry } from 'astro:content';
+import type { SectionId } from '../lib/content';
+import { sectionMeta } from '../lib/content';
+import { formatDate } from '../lib/site';
+
+interface Props {
+  entry: CollectionEntry<'kabarmutu' | 'lab' | 'pustaka'>;
+  section: SectionId;
+  showSection?: boolean;
+}
+
+const { entry, section, showSection = true } = Astro.props;
+const d = entry.data;
+const meta = sectionMeta(section);
+
+// Rumus di kartu dirender saat build (server-side) — bukti KaTeX tanpa JS di browser.
+const mathHtml = d.mathPreview
+  ? katex.renderToString(d.mathPreview, { throwOnError: false, displayMode: false })
+  : null;
+---
+
+<article class="card">
+  {showSection && <span class="badge">{meta.title}</span>}
+  <h3><a href={`/${section}/${entry.id}/`}>{d.title}</a></h3>
+  {mathHtml && <span class="card-math" set:html={mathHtml} />}
+  <p>{d.description}</p>
+  <div class="meta">
+    <time datetime={d.pubDate.toISOString()}>{formatDate(d.pubDate)}</time>
+    <span>oleh {d.author}</span>
+    {'license' in d && <span>{d.license}</span>}
+    {d.tags.length > 0 && <span>#{d.tags[0]}</span>}
+  </div>
+</article>

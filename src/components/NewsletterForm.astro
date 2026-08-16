@@ -1,0 +1,47 @@
+---
+// Form selalu tampil (input + tombol) sejak hari-1 sesuai SPEC v0.4.
+// Jika PUBLIC_NEWSLETTER_ENDPOINT diisi (Buttondown dkk.), submit terkirim ke sana;
+// jika belum, tampil catatan jujur cara mengaktifkannya — bukan form mati.
+const endpoint = import.meta.env.PUBLIC_NEWSLETTER_ENDPOINT as string | undefined;
+---
+
+<div class="newsletter-box">
+  <h2>Kabar Terbuka</h2>
+  <p>
+    Ringkasan mingguan: kurasi open source, breakdown sains, dan kabar Hack
+    Sprint — langsung ke email kamu, tanpa algoritma.
+  </p>
+  <form
+    class="newsletter"
+    id="newsletter-form"
+    {...endpoint ? { action: endpoint, method: 'post', target: '_blank' } : {}}
+  >
+    <label class="skip-link" for="newsletter-email">Email</label>
+    <input id="newsletter-email" type="email" name="email" placeholder="kamu@contoh.id" autocomplete="email" required />
+    <button type="submit">Daftar</button>
+  </form>
+  <p class="newsletter-note" id="newsletter-note" hidden>
+    Penyimpanan email belum tersambung — set <code>PUBLIC_NEWSLETTER_ENDPOINT</code>
+    di <code>.env</code> (lihat <code>.env.example</code>) dan form ini langsung aktif.
+  </p>
+</div>
+
+{
+  !endpoint && (
+    <script>
+      // Tanpa endpoint: tombol Daftar menampilkan catatan cara mengaktifkan —
+      // idempoten & tahan view transitions (astro:page-load).
+      function initNewsletterFallback() {
+        const form = document.getElementById('newsletter-form');
+        if (!form || form.dataset.bound) return;
+        form.dataset.bound = '1';
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          document.getElementById('newsletter-note')?.removeAttribute('hidden');
+        });
+      }
+      document.addEventListener('astro:page-load', initNewsletterFallback);
+      document.addEventListener('DOMContentLoaded', initNewsletterFallback);
+    </script>
+  )
+}

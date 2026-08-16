@@ -1,0 +1,9 @@
+# Normalisasi line ending: LF di repo (build Docker/Linux aman),
+# checkout otomatis sesuai OS masing-masing kontributor.
+* text=auto eol=lf
+
+# Binari
+*.png binary
+*.woff2 binary
+*.jpg binary
+*.ico binary

@@ -1,0 +1,119 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { SectionId } from '../lib/content';
+import { SITE, editUrl, formatDate } from '../lib/site';
+
+interface Props {
+  entry: CollectionEntry<'kabarmutu' | 'lab' | 'pustaka'>;
+  section: SectionId;
+}
+
+const { entry, section } = Astro.props;
+const d = entry.data;
+---
+
+<div class="panel">
+  <div>
+    <a class="btn btn-edit" href={editUrl(section, entry.id)} target="_blank" rel="noopener">
+      Edit di GitHub
+    </a>
+  </div>
+
+  <div>
+    <h3>Metadata</h3>
+    <dl>
+      <dt>Terbit</dt>
+      <dd><time datetime={d.pubDate.toISOString()}>{formatDate(d.pubDate)}</time></dd>
+      {
+        d.updatedDate && (
+          <>
+            <dt>Diperbarui</dt>
+            <dd>
+              <time datetime={d.updatedDate.toISOString()}>{formatDate(d.updatedDate)}</time>
+            </dd>
+          </>
+        )
+      }
+      {
+        'source' in d && d.source && (
+          <>
+            <dt>Sumber</dt>
+            <dd>
+              <a href={d.source} rel="noopener">
+                {d.sourceName ?? 'Sumber asli'} ↗
+              </a>
+            </dd>
+          </>
+        )
+      }
+      {
+        'kind' in d && (
+          <>
+            <dt>Jenis</dt>
+            <dd>{d.kind}</dd>
+            <dt>Lisensi</dt>
+            <dd>{d.license}</dd>
+            <dt>Tautan</dt>
+            <dd>
+              <a href={d.url} rel="noopener">
+                Buka proyek ↗
+              </a>
+            </dd>
+          </>
+        )
+      }
+      {
+        'repo' in d && d.repo && (
+          <>
+            <dt>Repo</dt>
+            <dd>
+              <a href={d.repo} rel="noopener">
+                GitHub ↗
+              </a>
+            </dd>
+          </>
+        )
+      }
+    </dl>
+  </div>
+
+  {
+    d.links.length > 0 && (
+      <div>
+        <h3>Terkait</h3>
+        <ul>
+          {d.links.map((l) => (
+            <li>
+              <a href={l.url} rel="noopener">
+                {l.label} ↗
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  {
+    d.tags.length > 0 && (
+      <div>
+        <h3>Tag</h3>
+        <div class="tags">
+          {d.tags.map((t) => (
+            <span class="chip">{t}</span>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  <div>
+    <h3>Diskusi</h3>
+    <ul>
+      <li><a href={SITE.discussions} rel="noopener">GitHub Discussions ↗</a></li>
+    </ul>
+    <p style="font-size: 0.78rem; color: var(--muted); margin: 0.5rem 0 0;">
+      Menemukan kesalahan? Edit langsung — PR direview maintainer lalu auto-deploy.
+    </p>
+  </div>
+</div>

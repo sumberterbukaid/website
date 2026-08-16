@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Cari — Sumber Terbuka"
+  description="Pencarian full-text di seluruh artikel Sumber Terbuka — ditenagai Pagefind, berjalan sepenuhnya di browser tanpa server."
+>
+  <section class="container page-head">
+    <h1>Cari</h1>
+    <p class="lead">Pencarian full-text seluruh artikel — diproses di browser kamu, tanpa server pencarian.</p>
+  </section>
+
+  <section class="container search-box">
+    <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+    <div id="search"></div>
+    <script is:inline src="/pagefind/pagefind-ui.js"></script>
+    <script>
+      // Init PagefindUI setiap halaman termuat — termasuk saat navigasi
+      // via view transitions (astro:page-load) maupun tanpa JS router (DOMContentLoaded).
+      function initSearch() {
+        const el = document.getElementById('search');
+        const PagefindUI = (window as unknown as { PagefindUI?: new (o: object) => void }).PagefindUI;
+        if (!el || el.dataset.bound || !PagefindUI) return;
+        el.dataset.bound = '1';
+        new PagefindUI({
+          element: '#search',
+          showImages: false,
+          translations: {
+            placeholder: 'Cari artikel, dataset, rumus…',
+            clear_search: 'Hapus',
+            load_more: 'Muat lebih banyak hasil',
+            search_label: 'Cari di situs ini',
+            zero_results: 'Tidak ada hasil untuk “[SEARCH_TERM]”',
+            many_results: '[COUNT] hasil untuk “[SEARCH_TERM]”',
+            one_result: '[COUNT] hasil untuk “[SEARCH_TERM]”',
+            searching: 'Mencari “[SEARCH_TERM]”…',
+          },
+        });
+      }
+      document.addEventListener('astro:page-load', initSearch);
+      document.addEventListener('DOMContentLoaded', initSearch);
+    </script>
+    <noscript>
+      <p>Aktifkan JavaScript untuk menggunakan pencarian, atau jelajah lewat menu di atas.</p>
+    </noscript>
+  </section>
+</BaseLayout>

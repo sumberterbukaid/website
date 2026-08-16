@@ -1,0 +1,19 @@
+# Situs sumberterbuka.id — kontainer di belakang Traefik + Cloudflare Tunnel
+# (infrastruktur di ../core: traefik + cloudflared, network project_default)
+services:
+  website:
+    build: .
+    image: sumberterbuka-website
+    container_name: sumberterbuka-website
+    restart: unless-stopped
+    networks:
+      - project_default
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sumberterbuka.rule=Host(`sumberterbuka.id`) || Host(`www.sumberterbuka.id`)
+      - traefik.http.routers.sumberterbuka.entrypoints=web
+      - traefik.http.services.sumberterbuka.loadbalancer.server.port=80
+
+networks:
+  project_default:
+    external: true

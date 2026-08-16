@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+---
+
+<BaseLayout
+  title="Forks — Changelog Komunitas — Sumber Terbuka"
+  description="Daftar koreksi dan pull request dari pembaca yang diterima. Di Sumber Terbuka, koreksi pembaca adalah fitur, bukan pelengkap."
+>
+  <section class="container page-head">
+    <h1>/forks — changelog komunitas</h1>
+    <p class="lead">
+      Setiap artikel di situs ini bisa dikoreksi lewat pull request. Halaman ini
+      mencatat semua koreksi yang diterima — bukti bahwa "terbuka" di sini bukan slogan.
+    </p>
+  </section>
+
+  <div class="container page-body">
+    <h2>Cara mengoreksi artikel</h2>
+    <ol class="timeline">
+      <li>
+        <strong>Klik "Edit di GitHub"</strong>
+        <span>Ada di panel kanan setiap artikel — langsung membuka file markdown sumbernya.</span>
+      </li>
+      <li>
+        <strong>Edit dan ajukan PR</strong>
+        <span>Edit lewat GitHub langsung (tanpa setup apa pun) atau fork repo. Jelaskan apa yang dikoreksi dan sumbernya.</span>
+      </li>
+      <li>
+        <strong>Review maintainer</strong>
+        <span>1 maintainer me-review PR. Merge ke main = situs auto-deploy dalam hitungan menit.</span>
+      </li>
+    </ol>
+
+    <h2>Koreksi yang diterima</h2>
+    <p>
+      Belum ada koreksi yang masuk — kamu bisa jadi yang pertama. Daftar PR
+      koreksi yang sudah dimerge akan muncul di halaman ini, dengan nama
+      kontributor dan artikel yang dikoreksi.
+    </p>
+    <p>
+      <a href={SITE.repo + '/pulls'} rel="noopener">Lihat PR terbuka di GitHub ↗</a>
+    </p>
+
+    <h2>Kode etik</h2>
+    <p>
+      Semua kontributor mengikuti{' '}
+      <a href={SITE.repo + '/blob/main/CODE_OF_CONDUCT.md'} rel="noopener">kode etik</a>.
+      Detail lengkap ada di{' '}
+      <a href={SITE.repo + '/blob/main/CONTRIBUTING.md'} rel="noopener">CONTRIBUTING.md</a>.
+    </p>
+  </div>
+</BaseLayout>

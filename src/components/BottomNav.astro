@@ -1,0 +1,33 @@
+---
+// Navigasi bawah mobile-first: jangkauan jempol, selalu terlihat.
+// Hilang otomatis di layar >= 720px (header atas mengambil alih).
+const items = [
+  {
+    href: '/',
+    label: 'Beranda',
+    icon: 'M3 10.5 12 3l9 7.5M5 9.5V21h5v-6h4v6h5V9.5',
+    exact: true,
+  },
+  { href: '/kabarmutu/', label: 'Kabar', icon: 'M4 5h16v14H4zM4 5v14M8 9h8M8 13h8M8 17h5' },
+  { href: '/lab/', label: 'Lab', icon: 'M9 3h6M10 3v6.5L5.5 18A2 2 0 0 0 7.3 21h9.4a2 2 0 0 0 1.8-3L14 9.5V3M7.5 15h9' },
+  { href: '/pustaka/', label: 'Pustaka', icon: 'M4 5a2 2 0 0 1 2-2h13v18H6a2 2 0 0 1-2-2zM8 3v18M11 8h5M11 12h5' },
+  { href: '/hackathon/', label: 'Sprint', icon: 'M12 15a5 5 0 0 1 5-5h1v2l4-3.5L18 5v2h-1a7 7 0 0 0-7 7M12 15a5 5 0 0 1-5-5H6v2L2 8.5 6 5v2h1a7 7 0 0 1 7 7M12 15v6' },
+];
+
+const pathname = Astro.url.pathname;
+const isCurrent = (item: (typeof items)[number]) =>
+  item.exact ? pathname === item.href : pathname.startsWith(item.href);
+---
+
+<nav class="bottom-nav" aria-label="Navigasi bawah">
+  {
+    items.map((item) => (
+      <a href={item.href} aria-current={isCurrent(item) ? 'page' : undefined}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d={item.icon} />
+        </svg>
+        <span>{item.label}</span>
+      </a>
+    ))
+  }
+</nav>

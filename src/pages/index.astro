@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
+import { getPublishedAll, getPublished, SECTIONS, readingTimeMinutes, type SectionId } from '../lib/content';
+import { SITE, formatDate, editUrl } from '../lib/site';
+
+const all = await getPublishedAll();
+const editorial = all.filter(({ section }) => section !== 'pustaka');
+const hero = editorial.find(({ entry }) => entry.data.featured) ?? editorial[0];
+const hackathonForm = import.meta.env.PUBLIC_HACKATHON_FORM_URL as string | undefined;
+
+const perSection: Record<SectionId, Awaited<ReturnType<typeof getPublished>>> = {
+  kabarmutu: (await getPublished('kabarmutu')).slice(0, 3),
+  lab: (await getPublished('lab')).slice(0, 3),
+  pustaka: (await getPublished('pustaka')).slice(0, 3),
+};
+---
+
+<BaseLayout
+  title={`${SITE.name} — ${SITE.tagline}`}
+  description="Portal berita open source, sains, dan matematika terbuka — plus hackathon online bulanan. Semua artikel bisa dikoreksi lewat pull request."
+>
+  <section class="container hero">
+    {
+      hero && (
+        <>
+          <span class="badge">
+            <a href={`/${hero.section}/`}>{hero.section === 'kabarmutu' ? 'Kabarmutu' : 'Lab'}</a>
+          </span>
+          <h1>
+            <a href={`/${hero.section}/${hero.entry.id}/`}>{hero.entry.data.title}</a>
+          </h1>
+          <p class="standfirst">{hero.entry.data.description}</p>
+          <p class="meta">
+            {formatDate(hero.entry.data.pubDate)} · {readingTimeMinutes(hero.entry.body)} menit baca · oleh {hero.entry.data.author} · <a href={editUrl(hero.section, hero.entry.id)} rel="noopener">koreksi di GitHub ↗</a>
+          </p>
+        </>
+      )
+    }
+    {
+      !hero && (
+        <>
+          <h1>{SITE.tagline}</h1>
+          <p class="standfirst">
+            Situs baru saja dibangun — artikel pilar pertama segera terbit.
+          </p>
+        </>
+      )
+    }
+  </section>
+
+  <div class="strip">
+    <div class="container inner">
+      {
+        hackathonForm ? (
+          <>
+            <span>
+              $ hack-sprint --status: <strong>Pendaftaran Hack Sprint #0 dibuka</strong>
+            </span>
+            <a href={hackathonForm} rel="noopener">Daftar sekarang &rarr;</a>
+          </>
+        ) : (
+          <>
+            <span>
+              $ hack-sprint --status: <strong>Hack Sprint #0 — pendaftaran segera dibuka</strong>
+            </span>
+            <a href="/hackathon/">pelajari format &amp; cara ikut &rarr;</a>
+          </>
+        )
+      }
+    </div>
+  </div>
+
+  <div class="container home-grid">
+    {
+      SECTIONS.map((section) => (
+        <section aria-labelledby={`sec-${section.id}`}>
+          <h2 id={`sec-${section.id}`}>
+            {section.title}
+            <a class="more" href={`/${section.id}/`}>
+              lihat semua &rarr;
+            </a>
+          </h2>
+          {perSection[section.id].length === 0 && (
+            <p style="color: var(--muted); font-size: 0.92rem;">Menyusul.</p>
+          )}
+          {perSection[section.id].slice(0, 3).map((entry) => (
+            <ArticleCard entry={entry} section={section.id} showSection={false} />
+          ))}
+        </section>
+      ))
+    }
+  </div>
+
+  <div class="container">
+    <NewsletterForm />
+  </div>
+</BaseLayout>

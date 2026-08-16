@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+---
+
+<BaseLayout
+  title="Transparansi — Sumber Terbuka"
+  description="Status proyek, teknologi yang dipakai, lisensi, dan kebijakan monetisasi Sumber Terbuka — semua terbuka sejak hari pertama."
+>
+  <section class="container page-head">
+    <h1>Transparansi</h1>
+    <p class="lead">
+      Situs yang mengklaim "terbuka" wajib terbuka soal dirinya sendiri.
+      Halaman ini adalah laporan hidup: status, biaya, dan rencana monetisasi —
+      kebijakan apa pun dipublikasikan di sini <em>sebelum</em> dipasang.
+    </p>
+  </section>
+
+  <div class="container page-body">
+    <h2>Status proyek</h2>
+    <ul class="checklist">
+      <li>Repo publik: <a href={SITE.repo} rel="noopener">sumberterbukaid/website</a></li>
+      <li>Situs dibangun dengan Astro — statis, tanpa tracking cookie</li>
+      <li>Analitik: Plausible (ramah privasi) — hanya aktif jika dikonfigurasi</li>
+      <li>Semua artikel bisa dikoreksi lewat PR (<a href="/forks/">/forks</a>)</li>
+    </ul>
+
+    <h2>Lisensi</h2>
+    <ul>
+      <li>Artikel &amp; konten editorial: <a href="/content-license/">CC BY-SA 4.0</a></li>
+      <li>Kode situs: <a href={SITE.repo + '/blob/main/LICENSE'} rel="noopener">MIT</a></li>
+      <li>Item /pustaka mengikuti lisensi masing-masing (CC0/ODbL/dll.)</li>
+    </ul>
+
+    <h2>Monetisasi</h2>
+    <p>
+      <strong>Saat ini: belum ada.</strong> Belum ada iklan, afiliasi, atau
+      sponsor berbayar di situs ini. Jika nanti dipasang (mis. AdSense atau
+      sponsor newsletter), kebijakannya — apa, di mana, dan berapa — akan
+      ditulis di halaman ini terlebih dahulu.
+    </p>
+
+    <h2>Cara kerja teknis</h2>
+    <p>
+      Situs statis dibangun dengan <a href="https://astro.build" rel="noopener">Astro</a>,
+      konten markdown di repo, LaTeX via KaTeX, pencarian via Pagefind.
+      Deploy otomatis setiap merge ke <code>main</code>. PR direview 1
+      maintainer sebelum dimerge — alurnya di{' '}
+      <a href={SITE.repo + '/blob/main/CONTRIBUTING.md'} rel="noopener">CONTRIBUTING.md</a>.
+    </p>
+  </div>
+</BaseLayout>

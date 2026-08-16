@@ -1,0 +1,51 @@
+---
+import { SITE } from '../lib/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="inner">
+      <div>
+        <h2>Sumber Terbuka</h2>
+        <p>{SITE.tagline}</p>
+        <p>
+          Kode situs ini terbuka:
+          <a href={SITE.repo} rel="noopener">sumberterbukaid/website</a>
+        </p>
+      </div>
+      <div>
+        <h2>Jelajah</h2>
+        <ul>
+          <li><a href="/kabarmutu/">Kabarmutu</a></li>
+          <li><a href="/lab/">Lab</a></li>
+          <li><a href="/pustaka/">Pustaka</a></li>
+          <li><a href="/hackathon/">Hackathon</a></li>
+          <li><a href="/cari/">Cari</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Komunitas</h2>
+        <ul>
+          <li><a href="/forks/">Changelog komunitas</a></li>
+          <li><a href={SITE.discussions} rel="noopener">Diskusi (GitHub)</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+          <li><a href="/transparansi/">Transparansi</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Lisensi</h2>
+        <ul>
+          <li><a href="/content-license/">Artikel: CC BY-SA 4.0</a></li>
+          <li><a href="/content-license/">Kode situs: MIT</a></li>
+          <li><a href={SITE.repo + '/blob/main/CONTRIBUTING.md'} rel="noopener">Koreksi artikel via PR</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© {year} Sumber Terbuka — konten CC BY-SA 4.0, kode MIT</span>
+      <span>dibangun terbuka dari 🇮🇩</span>
+    </div>
+  </div>
+</footer>

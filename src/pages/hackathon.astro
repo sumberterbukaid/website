@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+
+const formUrl = (import.meta.env.PUBLIC_HACKATHON_FORM_URL as string | undefined) ?? null;
+
+const themes = [
+  { month: 'Bulan 1', title: 'Visualisasi Data Sains Indonesia' },
+  { month: 'Bulan 2', title: 'Kalkulator Matematika Open Source' },
+  { month: 'Bulan 3', title: 'Tools untuk Guru Sains' },
+];
+
+const flow = [
+  { title: 'Pengumuman', desc: 'Tema dan aturan diumumkan di halaman ini plus GitHub dan Discord.' },
+  { title: 'Daftar', desc: 'Pendaftaran via GitHub — identitas dan repo peserta tercatat otomatis.' },
+  { title: 'Kerja', desc: 'Dua minggu pengerjaan di repo masing-masing peserta. Open source wajib.' },
+  { title: 'Submit', desc: 'Peserta submit link repo; submission ter-list otomatis di galeri publik.' },
+  { title: 'Voting + juri', desc: 'Voting publik dengan login GitHub (anti-abuse) dinilai bersama juri.' },
+  { title: 'Pemenang', desc: 'Karya pemenang di-feature di homepage dan newsletter Kabar Terbuka.' },
+];
+---
+
+<BaseLayout
+  title="Hackathon — Sumber Terbuka"
+  description="Sumber Terbuka Hack Sprint: hackathon online 2 minggu, tiap bulan tema berbeda — dari visualisasi data sains sampai tools untuk guru. Daftar via GitHub."
+>
+  <section class="container page-head">
+    <p class="status-flag">Hack Sprint #0 — akan diumumkan</p>
+    <h1>Sumber Terbuka Hack Sprint</h1>
+    <p class="lead">
+      Hackathon online 2 minggu, tiap bulan tema berbeda. Bukan sekadar lomba —
+      ini mesin komunitas tempat pembaca berubah jadi pembuat.
+    </p>
+  </section>
+
+  <div class="container page-body">
+    <h2>Tema berputar</h2>
+    <ul>
+      {themes.map((t) => (
+        <li><strong>{t.month}:</strong> {t.title}</li>
+      ))}
+    </ul>
+
+    <h2>Alurnya</h2>
+    <ol class="timeline">
+      {flow.map((f) => (
+        <li>
+          <strong>{f.title}</strong>
+          <span>{f.desc}</span>
+        </li>
+      ))}
+    </ol>
+
+    <h2>Hadiah</h2>
+    <p>
+      Tidak harus uang besar: beasiswa, VPS, atau feature di newsletter Kabar
+      Terbuka. Detail hadium setiap sprint diumumkan bersama temanya.
+    </p>
+
+    <h2>Pendaftaran</h2>
+    {
+      formUrl ? (
+        <p>
+          <a class="btn btn-edit" href={formUrl} rel="noopener">Daftar Hack Sprint #0</a>
+        </p>
+      ) : (
+        <p>
+          Formulir pendaftaran menyusul bersama pengumuman tanggal Hack Sprint #0.
+          Pantau <a href="/rss.xml">RSS</a> atau{' '}
+          <a href={SITE.discussions} rel="noopener">GitHub Discussions</a> — info
+          pertama selalu muncul di sana.
+        </p>
+      )
+    }
+
+    <h2>Fase platform</h2>
+    <p>
+      Saat ini hackathon berjalan dengan halaman statis + formulir (fase 1).
+      Sistem submission otomatis ala Devpost dengan login GitHub sedang
+      disiapkan sebagai aplikasi terpisah (fase 2) — desainnya sudah ada di{' '}
+      <a href={SITE.repo + '/blob/main/SPEC.md'} rel="noopener">SPEC.md</a> bagian 5.
+    </p>
+  </div>
+</BaseLayout>

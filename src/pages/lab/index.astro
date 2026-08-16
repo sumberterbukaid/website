@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { getPublished, sectionMeta } from '../../lib/content';
+
+const meta = sectionMeta('lab');
+const entries = await getPublished('lab');
+---
+
+<BaseLayout title={`${meta.title} — Sumber Terbuka`} description={meta.description}>
+  <section class="container page-head">
+    <h1>{meta.title}</h1>
+    <p class="lead">{meta.description}</p>
+  </section>
+  <section class="container card-list">
+    {entries.map((entry) => <ArticleCard entry={entry} section="lab" />)}
+  </section>
+</BaseLayout>

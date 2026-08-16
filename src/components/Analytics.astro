@@ -1,0 +1,11 @@
+---
+// Plausible hanya dimuat jika PUBLIC_PLAUSIBLE_DOMAIN diisi (.env).
+// Tanpa cookie, tanpa cross-site tracking — konsisten etos terbuka (SPEC v0.4).
+const domain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN as string | undefined;
+---
+
+{
+  domain && (
+    <script is:inline defer data-domain={domain} src="https://plausible.io/js/script.js" />
+  )
+}

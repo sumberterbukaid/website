@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="404 — Halaman tidak ditemukan — Sumber Terbuka"
+  description="Halaman yang kamu cari tidak ada — mungkin belum ditulis, atau sudah dipindah."
+>
+  <div class="container">
+    <div class="terminal-404">
+      <p>
+        <span class="err">bash: 404</span> — halaman tidak ditemukan
+      </p>
+      <p>$ ls /artikel-yang-kamu-cari</p>
+      <p>ls: tidak ada berkas atau direktori seperti itu</p>
+      <p>
+        $ cd <a href="/">~</a> && <a href="/cari/">grep -r "yang kamu cari"</a>
+      </p>
+      <p class="ok"># selesai dengan status 1</p>
+    </div>
+  </div>
+</BaseLayout>
