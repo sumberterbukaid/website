@@ -34,9 +34,9 @@ const meta = sectionMeta(section);
         <h1>{entry.data.title}</h1>
         <p class="standfirst">{entry.data.description}</p>
         <p class="article-meta">
-          {readingTimeMinutes(entry.body)} menit baca · oleh {entry.data.author} · <a href={editUrl(section, entry.id)} rel="noopener">koreksi di GitHub ↗</a>
+          {readingTimeMinutes(entry.body)} menit baca · oleh {entry.data.author} · <a href={editUrl(section, entry.id)} target="_blank" rel="noopener noreferrer">koreksi di GitHub ↗</a>
           {'source' in entry.data && entry.data.source && (
-            <> · sumber: <a href={entry.data.source} rel="noopener">{entry.data.sourceName ?? 'tautan asli'} ↗</a></>
+            <> · sumber: <a href={entry.data.source} target="_blank" rel="noopener noreferrer">{entry.data.sourceName ?? 'tautan asli'} ↗</a></>
           )}
         </p>
         {entry.data.heroImage && <img class="hero-img" src={entry.data.heroImage} alt="" width="1200" height="630" loading="eager" />}

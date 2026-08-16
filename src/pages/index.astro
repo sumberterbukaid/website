@@ -33,7 +33,7 @@ const perSection: Record<SectionId, Awaited<ReturnType<typeof getPublished>>> = 
           </h1>
           <p class="standfirst">{hero.entry.data.description}</p>
           <p class="meta">
-            {formatDate(hero.entry.data.pubDate)} · {readingTimeMinutes(hero.entry.body)} menit baca · oleh {hero.entry.data.author} · <a href={editUrl(hero.section, hero.entry.id)} rel="noopener">koreksi di GitHub ↗</a>
+            {formatDate(hero.entry.data.pubDate)} · {readingTimeMinutes(hero.entry.body)} menit baca · oleh {hero.entry.data.author} · <a href={editUrl(hero.section, hero.entry.id)} target="_blank" rel="noopener noreferrer">koreksi di GitHub ↗</a>
           </p>
         </>
       )

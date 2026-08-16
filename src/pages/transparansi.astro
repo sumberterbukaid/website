@@ -19,7 +19,7 @@ import { SITE } from '../lib/site';
   <div class="container page-body">
     <h2>Status proyek</h2>
     <ul class="checklist">
-      <li>Repo publik: <a href={SITE.repo} rel="noopener">sumberterbukaid/website</a></li>
+      <li>Repo publik: <a href={SITE.repo} target="_blank" rel="noopener noreferrer">sumberterbukaid/website</a></li>
       <li>Situs dibangun dengan Astro — statis, tanpa tracking cookie</li>
       <li>Analitik: Plausible (ramah privasi) — hanya aktif jika dikonfigurasi</li>
       <li>Semua artikel bisa dikoreksi lewat PR (<a href="/forks/">/forks</a>)</li>
@@ -28,7 +28,7 @@ import { SITE } from '../lib/site';
     <h2>Lisensi</h2>
     <ul>
       <li>Artikel &amp; konten editorial: <a href="/content-license/">CC BY-SA 4.0</a></li>
-      <li>Kode situs: <a href={SITE.repo + '/blob/main/LICENSE'} rel="noopener">MIT</a></li>
+      <li>Kode situs: <a href={SITE.repo + '/blob/main/LICENSE'} target="_blank" rel="noopener noreferrer">MIT</a></li>
       <li>Item /pustaka mengikuti lisensi masing-masing (CC0/ODbL/dll.)</li>
     </ul>
 
@@ -42,11 +42,11 @@ import { SITE } from '../lib/site';
 
     <h2>Cara kerja teknis</h2>
     <p>
-      Situs statis dibangun dengan <a href="https://astro.build" rel="noopener">Astro</a>,
+      Situs statis dibangun dengan <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a>,
       konten markdown di repo, LaTeX via KaTeX, pencarian via Pagefind.
       Deploy otomatis setiap merge ke <code>main</code>. PR direview 1
       maintainer sebelum dimerge — alurnya di{' '}
-      <a href={SITE.repo + '/blob/main/CONTRIBUTING.md'} rel="noopener">CONTRIBUTING.md</a>.
+      <a href={SITE.repo + '/blob/main/CONTRIBUTING.md'} target="_blank" rel="noopener noreferrer">CONTRIBUTING.md</a>.
     </p>
   </div>
 </BaseLayout>

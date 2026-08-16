@@ -14,7 +14,7 @@ const d = entry.data;
 
 <div class="panel">
   <div>
-    <a class="btn btn-edit" href={editUrl(section, entry.id)} target="_blank" rel="noopener">
+    <a class="btn btn-edit" href={editUrl(section, entry.id)} target="_blank" rel="noopener noreferrer">
       Edit di GitHub
     </a>
   </div>
@@ -39,7 +39,7 @@ const d = entry.data;
           <>
             <dt>Sumber</dt>
             <dd>
-              <a href={d.source} rel="noopener">
+              <a href={d.source} target="_blank" rel="noopener noreferrer">
                 {d.sourceName ?? 'Sumber asli'} ↗
               </a>
             </dd>
@@ -55,7 +55,7 @@ const d = entry.data;
             <dd>{d.license}</dd>
             <dt>Tautan</dt>
             <dd>
-              <a href={d.url} rel="noopener">
+              <a href={d.url} target="_blank" rel="noopener noreferrer">
                 Buka proyek ↗
               </a>
             </dd>
@@ -67,7 +67,7 @@ const d = entry.data;
           <>
             <dt>Repo</dt>
             <dd>
-              <a href={d.repo} rel="noopener">
+              <a href={d.repo} target="_blank" rel="noopener noreferrer">
                 GitHub ↗
               </a>
             </dd>
@@ -84,7 +84,7 @@ const d = entry.data;
         <ul>
           {d.links.map((l) => (
             <li>
-              <a href={l.url} rel="noopener">
+              <a href={l.url} target="_blank" rel="noopener noreferrer">
                 {l.label} ↗
               </a>
             </li>
@@ -110,7 +110,7 @@ const d = entry.data;
   <div>
     <h3>Diskusi</h3>
     <ul>
-      <li><a href={SITE.discussions} rel="noopener">GitHub Discussions ↗</a></li>
+      <li><a href={SITE.discussions} target="_blank" rel="noopener noreferrer">GitHub Discussions ↗</a></li>
     </ul>
     <p style="font-size: 0.78rem; color: var(--muted); margin: 0.5rem 0 0;">
       Menemukan kesalahan? Edit langsung — PR direview maintainer lalu auto-deploy.

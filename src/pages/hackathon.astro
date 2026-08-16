@@ -54,20 +54,20 @@ const flow = [
     <h2>Hadiah</h2>
     <p>
       Tidak harus uang besar: beasiswa, VPS, atau feature di newsletter Kabar
-      Terbuka. Detail hadium setiap sprint diumumkan bersama temanya.
+      Terbuka. Detail hadiah setiap sprint diumumkan bersama temanya.
     </p>
 
     <h2>Pendaftaran</h2>
     {
       formUrl ? (
         <p>
-          <a class="btn btn-edit" href={formUrl} rel="noopener">Daftar Hack Sprint #0</a>
+          <a class="btn btn-edit" href={formUrl} target="_blank" rel="noopener noreferrer">Daftar Hack Sprint #0</a>
         </p>
       ) : (
         <p>
           Formulir pendaftaran menyusul bersama pengumuman tanggal Hack Sprint #0.
           Pantau <a href="/rss.xml">RSS</a> atau{' '}
-          <a href={SITE.discussions} rel="noopener">GitHub Discussions</a> — info
+          <a href={SITE.discussions} target="_blank" rel="noopener noreferrer">GitHub Discussions</a> — info
           pertama selalu muncul di sana.
         </p>
       )
@@ -78,7 +78,7 @@ const flow = [
       Saat ini hackathon berjalan dengan halaman statis + formulir (fase 1).
       Sistem submission otomatis ala Devpost dengan login GitHub sedang
       disiapkan sebagai aplikasi terpisah (fase 2) — desainnya sudah ada di{' '}
-      <a href={SITE.repo + '/blob/main/SPEC.md'} rel="noopener">SPEC.md</a> bagian 5.
+      <a href={SITE.repo + '/blob/main/SPEC.md'} target="_blank" rel="noopener noreferrer">SPEC.md</a> bagian 5.
     </p>
   </div>
 </BaseLayout>

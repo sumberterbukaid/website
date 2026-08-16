@@ -22,3 +22,6 @@ pnpm-debug.log*
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# artefak sesi ZCode CLI
+.zcode/

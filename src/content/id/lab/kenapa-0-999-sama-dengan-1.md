@@ -3,7 +3,7 @@ title: "Mengapa 0,999… sama dengan 1 — bukan hampir, tapi persis"
 description: "Tiga bukti bahwa koma sembilan berulang dan satu adalah bilangan yang sama, plus kenapa naluri kita menolaknya."
 pubDate: 2026-08-16
 updatedDate: 2026-08-16
-author: "@erfiansy"
+author: "@thinsmn"
 featured: true
 tags: ["matematika", "breakdown"]
 mathPreview: '0{,}999\ldots = 1'
