@@ -2,7 +2,7 @@
 
 Situs portal berita open source dan hackathon online. Tidak terbatas pada topik teknologi dan komputer; mencakup juga matematika dan sains terbuka. Dikerjakan dari Surabaya, dibangun secara terbuka sejak hari pertama.
 
-> Status: v0.4 — semua keputusan implementasi terkunci: penulis solo, konten dulu, bahasa id-ID. Domain `sumberterbuka.id` dan org GitHub `sumberterbukaid` sudah diamankan. Hanya tanggal Hack Sprint #0 yang menyusul (bagian 8). Keputusan bertanda **[baku]** dikunci sebagai arah implementasi.
+> Status: v0.5 — keputusan implementasi terkunci (penulis solo, konten dulu, id-ID, self-host tunnel); baru: bagian 10 rencana migrasi produksi ke home server (Docker CE, tunnel dipindah). Yang masih terbuka hanya tanggal Hack Sprint #0 (bagian 8). Keputusan bertanda **[baku]** dikunci sebagai arah implementasi.
 
 ## 1. Konsep & Positioning
 
@@ -141,3 +141,32 @@ Launch saat checklist ini tercentang — tidak menunggu sempurna:
 - [x] Halaman `/hackathon` statis live dengan info Hack Sprint #0
 - [x] LICENSE (MIT), lisensi CC BY-SA di footer, `CONTRIBUTING.md` + `CODE_OF_CONDUCT.md` ada di repo
 - [x] Halaman `/transparansi` placeholder live — laporan status proyek + slot kebijakan monetisasi (AdSense nanti)
+
+## 10. Rencana Migrasi Produksi (Home Server)
+
+Deploy saat ini berjalan di PC pribadi untuk pengujian. Produksi akhirnya pindah ke home server (mesin berbeda). Prinsipnya: **tidak ada arsitektur yang berubah — hanya mesin rumahnya.** Repo git adalah unit deploy: satu commit = satu image = satu situs yang bisa direproduksi siapa pun.
+
+### Keputusan baku
+
+- **Target environment: Debian headless + Docker CE [baku]** (+ plugin compose, dari repo resmi Docker). Dipilih dibanding Podman karena seluruh infrastruktur existing (Traefik discovery via `docker.sock` + label, `restart: unless-stopped`, external network) tersalin 1:1 tanpa adaptasi, dan kebutuhan server headless (auto-start setelah reboot) terlayani bawaan.
+- **Strategi tunnel: dipindah, bukan dibuat baru [baku]** — kredensial tunnel disalin ke server; selama transisi dua connector (PC + server) hidup bersamaan pada tunnel yang sama dan Cloudflare otomatis memakai connector yang sehat; **DNS tidak berubah sama sekali**; cloudflared di PC dimatikan setelah server terbukti stabil.
+
+### Runbook migrasi
+
+1. **Siapkan server:** install Docker CE + compose plugin dari repo resmi; `systemctl enable docker`; buat network `project_default`.
+2. **Salin aset:** repo website (clone dari GitHub setelah dipush) + folder `core/` (traefik, cloudflared, kredensial tunnel) **via jalur aman** — isinya secret.
+3. **Nyalakan:** `docker compose up -d` untuk traefik → cloudflared → website. Konfigurasi tidak berubah satu baris dari setup PC.
+4. **Observasi:** biarkan dua connector tunnel hidup bersamaan beberapa hari; pantau via `docker logs cloudflared` di server dan respons situs.
+5. **Dekomisi PC:** matikan kontainer cloudflared di PC (traefik/website PC boleh jadi staging lokal). PC kembali menjadi mesin tulis-dev.
+
+### Pemicu deploy di server
+
+- **Fase awal: manual** — SSH + `docker compose up -d --build` (±15 detik per deploy).
+- **Menyusul, saat repo publik & /forks aktif:** webhook GitHub (via subdomain tunnel) atau self-hosted runner. Catatan keamanan yang mengikat: **PR dari fork hanya boleh di-build di runner cloud GitHub** — self-hosted runner di server hanya untuk event push/merge yang sudah terpercaya.
+
+### Keamanan & operasional server
+
+- Socket Docker hanya root (default) dan **tidak diekspos TCP**.
+- Port host 80/8080 tidak diperlukan di server — lewat tunnel, cloudflared → traefik komunikasi antar-kontainer di network.
+- `core/` (kredensial tunnel, config Traefik) disimpan di repo privat / backup terpisah — **tidak boleh ikut repo publik website**.
+- Update rutin (apt + image); backup situs = repo git itu sendiri.
