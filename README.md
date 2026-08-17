@@ -102,10 +102,14 @@ mencakup `sumberterbuka.id` dan `*.sumberterbuka.id`.
 ### Setup runner (sekali di home server)
 
 ```bash
-# Debian; buat user khusus lalu ikuti panduan dari
-# GitHub → Settings → Actions → Runners → New self-hosted runner (Linux x64)
-sudo useradd -m runner && sudo usermod -aG docker runner
-# download + config.sh (daftarkan dengan label: production) + run.sh untuk tes
+# Debian — gunakan user non-root khusus untuk runner (mis. "runner", atau
+# user deployment yang sudah ada seperti "production"), lalu ikuti panduan
+# dari GitHub → Settings → Actions → Runners → New self-hosted runner
+sudo usermod -aG docker <user>     # izinkan user menjalankan docker compose
+# download + config.sh — DAFTARKAN DENGAN LABEL: --labels production
+# (label ini tali pengikat dengan runs-on di deploy.yml; tanpanya job
+# deploy akan menggantung di antrean selamanya)
+./run.sh                           # tes dulu di foreground
 sudo ./svc.sh install && sudo ./svc.sh start   # auto-start saat reboot
 ```
 
